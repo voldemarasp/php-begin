@@ -12,9 +12,20 @@
 			<div class="col">
 <div class="errorai">
 <h2>Ivykusios klaidos tavo kode</h2>
+
 <?php
 
-$my_file = fopen("error.log", "r+") or die ("unable to open file");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "errorai";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+$sql = "SELECT id, time, file, error FROM error_info";
+$result = $conn->query($sql);
+
 ?>
 <table class="table">
   <thead>
@@ -27,16 +38,19 @@ $my_file = fopen("error.log", "r+") or die ("unable to open file");
   </thead>
   <tbody>
 <?php
-for ($i=1; !feof($my_file); $i++) { 
-	$errorai = explode(",", fgets($my_file));
-	if ($errorai[0] != "") {
-	echo "<tr><th scope='row'>" . $i . "</th>";
-	echo "<td>" . $errorai[0] . "</td>";
-	echo "<td>" . $errorai[1] . "</td>";
-	echo "<td>" . $errorai[2] . "</td></tr>";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    echo "<tr><th scope='row'>" . $row["id"] . "</th>";
+	echo "<td>" . $row["time"] . "</td>";
+	echo "<td>" . $row["file"] . "</td>";
+	echo "<td>" . $row["error"] . "</td></tr>";   
+    }
+} else {
+    echo "0 results";
 }
- } 
 
+$conn->close();
 ?>
 </tbody>
 </div>

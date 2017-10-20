@@ -1,1 +1,5 @@
 .errorai { margin-top: 50px; text-align: center; }
+thead {
+	background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+}
+
